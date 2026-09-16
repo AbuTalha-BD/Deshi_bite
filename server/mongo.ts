@@ -47,6 +47,25 @@ try {
   // ignore
 }
 
+// If activeUri is still empty, inspect .env and .env.example files
+if (!activeUri) {
+  try {
+    const envPaths = [path.join(process.cwd(), '.env'), path.join(process.cwd(), '.env.example')];
+    for (const envPath of envPaths) {
+      if (fs.existsSync(envPath)) {
+        const content = fs.readFileSync(envPath, 'utf-8');
+        const match = content.match(/^MONGODB_URI=(.+)$/m);
+        if (match && match[1] && !match[1].startsWith('your_') && match[1].trim() !== '') {
+          activeUri = match[1].trim();
+          break;
+        }
+      }
+    }
+  } catch (e) {
+    // ignore
+  }
+}
+
 export function maskMongoUri(uri: string): string {
   if (!uri) return '';
   return uri.replace(/(mongodb(?:\+srv)?:\/\/[^:]+:)([^@]+)(@.+)/i, '$1*****$3');
@@ -61,7 +80,25 @@ export function isMongoActive(): boolean {
 }
 
 export async function connectMongo(customUri?: string): Promise<{ success: boolean; message: string }> {
-  const uriToUse = customUri?.trim() || activeUri?.trim() || process.env.MONGODB_URI?.trim();
+  let uriToUse = customUri?.trim() || activeUri?.trim() || process.env.MONGODB_URI?.trim();
+
+  if (!uriToUse) {
+    try {
+      const envPaths = [path.join(process.cwd(), '.env'), path.join(process.cwd(), '.env.example')];
+      for (const envPath of envPaths) {
+        if (fs.existsSync(envPath)) {
+          const content = fs.readFileSync(envPath, 'utf-8');
+          const match = content.match(/^MONGODB_URI=(.+)$/m);
+          if (match && match[1] && !match[1].startsWith('your_') && match[1].trim() !== '') {
+            uriToUse = match[1].trim();
+            break;
+          }
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+  }
 
   if (!uriToUse) {
     isConnected = false;

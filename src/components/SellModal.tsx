@@ -52,15 +52,13 @@ export const SellModal: React.FC = () => {
   const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  if (!isSellModalOpen) return null;
-
   // Filter products by active status and search
   const availableProducts = useMemo(() => {
-    return products
-      .filter((p) => p.active)
+    return (products || [])
+      .filter((p) => p && p.active)
       .filter((p) => {
         if (!searchQuery.trim()) return true;
-        return p.name.toLowerCase().includes(searchQuery.toLowerCase().trim());
+        return (p.name || '').toLowerCase().includes(searchQuery.toLowerCase().trim());
       });
   }, [products, searchQuery]);
 
@@ -238,9 +236,11 @@ export const SellModal: React.FC = () => {
     }
   };
 
+  if (!isSellModalOpen) return null;
+
   return (
-    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
-      <div className="bg-white rounded-3xl w-full max-w-3xl shadow-2xl border border-purple-100 overflow-hidden my-auto max-h-[92vh] flex flex-col animate-in fade-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+      <div className="bg-white rounded-3xl w-full max-w-3xl shadow-2xl border border-purple-100 overflow-hidden my-auto max-h-[92vh] flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100 bg-purple-50/40">
           <div className="flex items-center gap-3">
@@ -632,8 +632,8 @@ export const SellModal: React.FC = () => {
 
       {/* CONFIRMATION MODAL SUMMARY */}
       {showConfirmModal && (
-        <div className="fixed inset-0 z-60 bg-slate-900/70 backdrop-blur-xs flex items-center justify-center p-4">
-          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-purple-100 text-slate-800 animate-in zoom-in-95 duration-150">
+        <div className="fixed inset-0 z-60 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border border-purple-100 text-slate-800">
             <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center mb-4">
               <CheckCircle2 className="w-6 h-6" />
             </div>

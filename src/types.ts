@@ -14,6 +14,7 @@ export interface User {
   currentDue: number;
   address?: string;
   joinedDate: string;
+  createdAt?: string;
 }
 
 export interface Product {
@@ -62,7 +63,7 @@ export interface Sale {
   timestamp: number;
 }
 
-export type StockTransactionType = 'INITIAL' | 'STOCK_IN' | 'SALE_OUT' | 'ADJUSTMENT' | 'RETURN';
+export type StockTransactionType = 'INITIAL' | 'STOCK_IN' | 'STOCK_OUT' | 'SALE' | 'SALE_OUT' | 'ADJUSTMENT' | 'RETURN';
 
 export interface StockTransaction {
   id: string;
@@ -76,6 +77,10 @@ export interface StockTransaction {
   date: string;
   time: string;
   timestamp: number;
+  createdAtDate?: string;
+  createdAtTime?: string;
+  stockBefore?: number;
+  stockAfter?: number;
 }
 
 export interface PaymentRecord {
@@ -91,13 +96,15 @@ export interface PaymentRecord {
   date: string;
   time: string;
   timestamp: number;
+  createdAtDate?: string;
+  createdAtTime?: string;
 }
 
 export interface AppNotification {
   id: string;
   title: string;
   message: string;
-  type: 'INFO' | 'WARNING' | 'ALERT' | 'SUCCESS';
+  type: 'INFO' | 'WARNING' | 'ALERT' | 'SUCCESS' | 'AGENT_REGISTERED' | 'LOW_STOCK' | 'PAYMENT_RECEIVED' | 'NEW_SALE';
   isRead: boolean;
   date: string;
   time: string;
