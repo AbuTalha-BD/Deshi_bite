@@ -139,24 +139,7 @@ export const LoginView: React.FC = () => {
               <span className="block text-[10px] font-bold text-slate-600 uppercase text-center tracking-wider">
                 Instant Demo Access (Click to Fill)
               </span>
-              <div className="grid grid-cols-2 gap-2">
-                <button
-                  type="button"
-                  onClick={() => handleFillDemo('01711000000', 'admin123')}
-                  className="p-2 rounded-xl bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-900 text-left transition-colors cursor-pointer"
-                >
-                  <div className="text-[11px] font-bold">Admin Suite</div>
-                  <div className="text-[9px] text-purple-700">01711000000</div>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => handleFillDemo('01822000000', 'agent123')}
-                  className="p-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-900 text-left transition-colors cursor-pointer"
-                >
-                  <div className="text-[11px] font-bold">Agent Portal</div>
-                  <div className="text-[9px] text-indigo-700">01822000000 (Rahim)</div>
-                </button>
-              </div>
+              
             </div>
           </form>
         ) : (
